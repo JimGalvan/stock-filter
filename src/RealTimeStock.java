@@ -2,24 +2,42 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RealTimeStock {
 
-	private static final String API_KEY_OPTIONAL = "4A834PJKASDC1TEP";
-	private static final String API_KEY = "4fc3e808176890c29f14ad43b2c283bc";
+	private static final String API_KEY = "4A834PJKASDC1TEP";
 
 	private static Double stockPrice = 0.0; 
+	private static int counter = 0;
 
-	/* This optional API method was made in order to get BTC-USD, VRSN and YHOO 
-	   stock prices that are not available in the default API */
-	
-	public static void optionalStockAPI(String stock) throws IOException {
 
+	@SuppressWarnings("deprecation")
+	public static Double getStockPrice(String stock) throws IOException {
+		
+		// Counter added in order to fix api call time issue
+		++counter; 
+		
+		if (counter == 6) {
+			try {
+				System.out.println("Wait one minute for the program to load another 5 stock prices");
+				TimeUnit.MINUTES.sleep(1);
+				counter = 1;
+			
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("test");
+			}
+		}
+		
 		String rootURL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=";
-		rootURL += stock + "&outputsize=compact&apikey=" + API_KEY_OPTIONAL;
+		rootURL += stock + "&outputsize=compact&apikey=" + API_KEY;
+		System.out.println(stock);
 
 		URL request = new URL(rootURL);
 		InputStream openStream = request.openStream();
@@ -38,26 +56,6 @@ public class RealTimeStock {
 		String priceClose = (String) dataByLastDate.get("1. open");
 
 		stockPrice = Double.valueOf(priceClose);
-
-	}
-
-	@SuppressWarnings("deprecation")
-	public static Double getStockPrice(String stock) throws IOException {
-
-		String rootURL = "https://financialmodelingprep.com/api/v3/stock/real-time-price/";
-		rootURL += stock + "?apikey=" + API_KEY;
-
-		URL request = new URL(rootURL);
-		InputStream openStream = request.openStream();
-		String response = IOUtils.toString(openStream);
-
-		JSONObject root = new JSONObject(response);
-
-		try {
-			stockPrice = (Double) root.get("price");
-		} catch (JSONException e) {
-			optionalStockAPI(stock);
-		}
 
 		return stockPrice;
 	}

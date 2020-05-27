@@ -13,6 +13,7 @@ public class MakeMeRich {
 		// 1. Print these symbols using a Java 8 for-each and lambdas
 
 		symbols.stream().forEach(System.out::println);
+		System.out.println(" ");
 
 		// 2. Use the StockUtil class to print the price of Bitcoin
 

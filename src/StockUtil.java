@@ -39,7 +39,7 @@ public class StockUtil {
 				put("AAPL", priceValue("AAPL"));
 				put("ADBE", priceValue("ADBE"));
 				put("AMZN", priceValue("AMZN"));
-				put("CRAY", priceValue("CRAY"));
+//				put("CRAY", priceValue("CRAY"));
 				put("CSCO", priceValue("CSCO"));
 				put("SNE", priceValue("SNE"));
 				put("GOOG", priceValue("GOOG"));
@@ -49,7 +49,7 @@ public class StockUtil {
 				put("ORCL", priceValue("ORCL"));
 //				put("TIBX", priceValue("TIBX")); // not available in any of the two APIs 
 				put("VRSN", priceValue("VRSN"));
-				put("YHOO", priceValue("YHOO"));
+//				put("YHOO", priceValue("YHOO"));
 				put("BTC-USD", priceValue("BTC-USD"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
